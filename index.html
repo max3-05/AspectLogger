@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <link rel="assets" href="https://assets-cdn.github.com/">
+    </head>
+    <body>
+        <div id="readme" class="prose-diff html-blob blob instapaper_body">
+          <div class="markdown-body">
+            <h1><a id="user-content-aspectlogger" class="anchor" href="#aspectlogger" aria-hidden="true"><span class="octicon octicon-link"></span></a>AspectLogger</h1>
+
+                <p>AspectLogger gives developers ability to add logging functionality without needs to modify existing code. Ohh... Ok, with minimal needs.</p>
+
+                <h3><a id="user-content-prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h3>
+
+                <p>Before you can use this library you need to install <a href="http://aop-php.github.io/">php-aop module</a></p>
+
+                <h3><a id="user-content-usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+                <p>To use this library you need to define what exactly you would like to log with xml configuration. Example of such config you may see at <a href="https://github.com/max3-05/AspectLogger/blob/master/docs/config.xml.example">config.xml.example</a>
+                Also you need to load library and its configuration within your application like this</p>
+
+                <div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-k">require_once</span> <span class="pl-s"><span class="pl-pds">"</span>./lib/AspectLogger/AspectLogger.php<span class="pl-pds">"</span></span>;</span>
+                <span class="pl-s1"></span>
+                <span class="pl-s1"><span class="pl-smi">$logger</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">AspectLogger</span>();</span>
+                <span class="pl-s1"><span class="pl-smi">$logger</span><span class="pl-k">-&gt;</span>init(<span class="pl-s"><span class="pl-pds">'</span>&lt;path to xml config file&gt;<span class="pl-pds">'</span></span>);</span>
+                <span class="pl-s1"></span>
+                <span class="pl-s1"><span class="pl-c">/// Your application code here</span></span></pre></div>
+
+                <p>That's all. Logging is on.</p>
+
+                <h3><a id="user-content-documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h3>
+
+                <p>For more information please see <a href="http://max3-05.github.io/AspectLogger/docs/">documentation</a></p>
+
+          </div>
+        </div>        
+    </body>
+</html>
