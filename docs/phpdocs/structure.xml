@@ -1,0 +1,1577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a10" title="">
+  <file path="LogEventWriter/PgSQLWriter.php" hash="1db1ab9c775f4321afb04afce0d839bb" package="Default">
+    <docblock line="2">
+      <description><![CDATA[This file defines classes to manage event writers to PostgreSQL.]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+      <tag line="2" name="version" description="1.0"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="global" line="14" package="Default">
+      <extends>\LogEventWriter</extends>
+      <name>PgSQLWriter</name>
+      <full_name>\PgSQLWriter</full_name>
+      <docblock line="11">
+        <description><![CDATA[Manages PostgreSQL writer.]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="20" namespace="global" package="Default">
+        <name>$_connection</name>
+        <default><![CDATA[]]></default>
+        <docblock line="16">
+          <description><![CDATA[Connection resource.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="16" name="var" description="" type="resource">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="26" namespace="global" package="Default">
+        <name>$_pages</name>
+        <default><![CDATA[]]></default>
+        <docblock line="22">
+          <description><![CDATA[SQL query template to insert page info.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="22" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="36" namespace="global" package="Default">
+        <name>$_events</name>
+        <default><![CDATA[]]></default>
+        <docblock line="32">
+          <description><![CDATA[SQL query template to insert event info.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="32" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="47" package="Default">
+        <name>init</name>
+        <full_name>init</full_name>
+        <docblock line="42">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="42" name="param" description="Writer configuration." type="mixed|\SimpleXMLElement" variable="$config">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">\SimpleXMLElement</type>
+          </tag>
+          <tag line="42" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="47">
+          <name>$config</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="57" package="Default">
+        <name>open</name>
+        <full_name>open</full_name>
+        <docblock line="53">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="53" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="76" package="Default">
+        <name>_writePage</name>
+        <full_name>_writePage</full_name>
+        <docblock line="72">
+          <description><![CDATA[Writes page info into postgres database.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="72" name="param" description="Page info to write." type="\LogPage" variable="$page">
+            <type by_reference="false">\LogPage</type>
+          </tag>
+        </docblock>
+        <argument line="76">
+          <name>$page</name>
+          <default><![CDATA[]]></default>
+          <type>\LogPage</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="95" package="Default">
+        <name>format</name>
+        <full_name>format</full_name>
+        <docblock line="90">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="90" name="param" description="Handled event to format." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="90" name="return" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="95">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="114" package="Default">
+        <name>write</name>
+        <full_name>write</full_name>
+        <docblock line="109">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="109" name="param" description="Event to write." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="109" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="114">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="149" package="Default">
+        <name>close</name>
+        <full_name>close</full_name>
+        <docblock line="145">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="145" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="160" package="Default">
+        <name>_prepareAsynchronous</name>
+        <full_name>_prepareAsynchronous</full_name>
+        <docblock line="155">
+          <description><![CDATA[Prepares asynchronous sql statement.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="155" name="param" description="Statement name." type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="155" name="param" description="Query template." type="string" variable="$query">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="160">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="160">
+          <name>$query</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="178" package="Default">
+        <name>_arrayToHstore</name>
+        <full_name>_arrayToHstore</full_name>
+        <docblock line="173">
+          <description><![CDATA[Converts php array to postgres hstore.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="173" name="param" description="Array to convert." type="array" variable="$array">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="173" name="return" description="String representation of postgres hstore type." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="178">
+          <name>$array</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="LogEventWriter/FileWriter.php" hash="e626978120093826b1c2b2fed7a22858" package="Default">
+    <docblock line="2">
+      <description><![CDATA[This file defines classes to manage event writers to text files.]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+      <tag line="2" name="version" description="1.0"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="global" line="14" package="Default">
+      <extends>\LogEventWriter</extends>
+      <name>FileWriter</name>
+      <full_name>\FileWriter</full_name>
+      <docblock line="11">
+        <description><![CDATA[Manages file writer.]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="20" namespace="global" package="Default">
+        <name>$_resource</name>
+        <default><![CDATA[]]></default>
+        <docblock line="16">
+          <description><![CDATA[Managed file resource.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="16" name="var" description="" type="resource">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="28" package="Default">
+        <name>init</name>
+        <full_name>init</full_name>
+        <docblock line="23">
+          <description><![CDATA[Initializes writer instance depending on config.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="23" name="param" description="Writer configuration." type="mixed|\SimpleXMLElement" variable="$config">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">\SimpleXMLElement</type>
+          </tag>
+          <tag line="23" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="28">
+          <name>$config</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="38" package="Default">
+        <name>open</name>
+        <full_name>open</full_name>
+        <docblock line="34">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="34" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="58" package="Default">
+        <name>format</name>
+        <full_name>format</full_name>
+        <docblock line="53">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="53" name="param" description="Handled event to format." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="53" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="58">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="79" package="Default">
+        <name>write</name>
+        <full_name>write</full_name>
+        <docblock line="74">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="74" name="param" description="Event to write." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="74" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="79">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="100" package="Default">
+        <name>close</name>
+        <full_name>close</full_name>
+        <docblock line="97">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="LogEventWriter/SocketWriter.php" hash="229740838aa6d33294b6043be19bade7" package="Default">
+    <docblock line="2">
+      <description><![CDATA[This file defines classes to manage socket writers.]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+      <tag line="2" name="version" description="1.0"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="global" line="14" package="Default">
+      <extends>\LogEventWriter</extends>
+      <name>SocketWriter</name>
+      <full_name>\SocketWriter</full_name>
+      <docblock line="11">
+        <description><![CDATA[Class manages writing operation to socket.]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="20" namespace="global" package="Default">
+        <name>$_socket</name>
+        <default><![CDATA[]]></default>
+        <docblock line="16">
+          <description><![CDATA[Managed socket connection.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="16" name="var" description="" type="resource">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="28" package="Default">
+        <name>init</name>
+        <full_name>init</full_name>
+        <docblock line="23">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="23" name="param" description="Writer configuration." type="mixed|\SimpleXMLElement" variable="$config">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">\SimpleXMLElement</type>
+          </tag>
+          <tag line="23" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="28">
+          <name>$config</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="51" package="Default">
+        <name>open</name>
+        <full_name>open</full_name>
+        <docblock line="47">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="47" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="73" package="Default">
+        <name>format</name>
+        <full_name>format</full_name>
+        <docblock line="68">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="68" name="param" description="Handled event to format." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="68" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="73">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="84" package="Default">
+        <name>write</name>
+        <full_name>write</full_name>
+        <docblock line="79">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="79" name="param" description="Event to write." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="79" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="84">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="103" package="Default">
+        <name>close</name>
+        <full_name>close</full_name>
+        <docblock line="99">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="99" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="LogPage.php" hash="7e792252c9b9cf28a4c82efb5a3fba35" package="Default">
+    <docblock line="2">
+      <description><![CDATA[This file defines classes to store requested page info.]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+      <tag line="2" name="version" description="1.0"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="global" line="15" package="Default">
+      <extends/>
+      <name>LogPage</name>
+      <full_name>\LogPage</full_name>
+      <docblock line="11">
+        <description><![CDATA[Data structure to store requested page parameters.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="11" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+      </docblock>
+      <property final="false" static="false" visibility="public" line="21" namespace="global" package="Default">
+        <name>$id</name>
+        <default><![CDATA[0]]></default>
+        <docblock line="17">
+          <description><![CDATA[Page identifier.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="17" name="var" description="" type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="27" namespace="global" package="Default">
+        <name>$uri</name>
+        <default><![CDATA[]]></default>
+        <docblock line="23">
+          <description><![CDATA[Requested Page URI.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="23" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="33" namespace="global" package="Default">
+        <name>$query</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="29">
+          <description><![CDATA[List of query string parameters.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="29" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="39" namespace="global" package="Default">
+        <name>$session</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="35">
+          <description><![CDATA[List of session variables.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="35" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="45" namespace="global" package="Default">
+        <name>$cookie</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="41">
+          <description><![CDATA[List of cookie variables.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="41" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="51" namespace="global" package="Default">
+        <name>$time</name>
+        <default><![CDATA[]]></default>
+        <docblock line="47">
+          <description><![CDATA[Time when the page requested.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="47" name="var" description="" type="float|\DateTime">
+            <type by_reference="false">float</type>
+            <type by_reference="false">\DateTime</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="57" namespace="global" package="Default">
+        <name>$events</name>
+        <default><![CDATA[]]></default>
+        <docblock line="53">
+          <description><![CDATA[List of events handled during page request servicing.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="53" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="63" package="Default">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="60">
+          <description><![CDATA[Initializes instance of the page.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="81" package="Default">
+        <name>_update</name>
+        <full_name>_update</full_name>
+        <docblock line="76">
+          <description><![CDATA[AOP Advice for session_start function.]]></description>
+          <long-description><![CDATA[<p>It is needed to update $session variable if session been initialized.</p>]]></long-description>
+          <tag line="76" name="param" description="Join point info." type="\AopJoinPoint" variable="$joinPoint">
+            <type by_reference="false">\AopJoinPoint</type>
+          </tag>
+        </docblock>
+        <argument line="81">
+          <name>$joinPoint</name>
+          <default><![CDATA[]]></default>
+          <type>\AopJoinPoint</type>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="LogEvent.php" hash="12fa694e988ec143cfc867ee8d6535af" package="Default">
+    <class final="false" abstract="false" namespace="global" line="7" package="Default">
+      <extends/>
+      <name>LogEvent</name>
+      <full_name>\LogEvent</full_name>
+      <docblock line="3">
+        <description><![CDATA[Data structure to store event parameters.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="3" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+      </docblock>
+      <property final="false" static="false" visibility="public" line="13" namespace="global" package="Default">
+        <name>$page</name>
+        <default><![CDATA[]]></default>
+        <docblock line="9">
+          <description><![CDATA[<p>Current page request information.</p>]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="9" name="var" description="" type="\LogPage">
+            <type by_reference="false">\LogPage</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="19" namespace="global" package="Default">
+        <name>$time</name>
+        <default><![CDATA[]]></default>
+        <docblock line="15">
+          <description><![CDATA[<p>The time the event has occurred.</p>]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="15" name="var" description="" type="float|\DateTime">
+            <type by_reference="false">float</type>
+            <type by_reference="false">\DateTime</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="25" namespace="global" package="Default">
+        <name>$class</name>
+        <default><![CDATA[]]></default>
+        <docblock line="21">
+          <description><![CDATA[<p>Class name of the object generated the event.</p>]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="21" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="31" namespace="global" package="Default">
+        <name>$object</name>
+        <default><![CDATA[]]></default>
+        <docblock line="27">
+          <description><![CDATA[<p>Object generated event.</p>]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="27" name="var" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="37" namespace="global" package="Default">
+        <name>$action</name>
+        <default><![CDATA[]]></default>
+        <docblock line="33">
+          <description><![CDATA[<p>Name of the function generated the event.</p>]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="33" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="43" namespace="global" package="Default">
+        <name>$params</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="39">
+          <description><![CDATA[<p>List of parameters passed to the trigger function.</p>]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="39" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="49" namespace="global" package="Default">
+        <name>$stackTrace</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="45">
+          <description><![CDATA[<p>Trigger function stack trace.</p>]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="45" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="61" package="Default">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="51">
+          <description><![CDATA[<p>Default instance constructor.</p>]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="51" name="param" description="[optional] &lt;p&gt;Current page request information.&lt;/p&gt;" type="\LogPage" variable="$page">
+            <type by_reference="false">\LogPage</type>
+          </tag>
+          <tag line="51" name="param" description="[optional] &lt;p&gt;The time the event has occurred.&lt;/p&gt;" type="\DateTime|float" variable="$time">
+            <type by_reference="false">\DateTime</type>
+            <type by_reference="false">float</type>
+          </tag>
+          <tag line="51" name="param" description="[optional] &lt;p&gt;Class name of the object generated the event.&lt;/p&gt;" type="string" variable="$class">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="51" name="param" description="[optional] &lt;p&gt;Object generated event.&lt;/p&gt;" type="mixed" variable="$object">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="51" name="param" description="[optional] &lt;p&gt;Name of the function generated the event.&lt;/p&gt;" type="string" variable="$action">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="51" name="param" description="[optional] &lt;p&gt;List of parameters passed to the trigger function.&lt;/p&gt;" type="array" variable="$params">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="51" name="param" description="[optional] &lt;p&gt;Trigger function stack trace.&lt;/p&gt;" type="array" variable="$stackTrace">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="61">
+          <name>$page</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="62">
+          <name>$time</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="63">
+          <name>$class</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="64">
+          <name>$object</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="65">
+          <name>$action</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="66">
+          <name>$params</name>
+          <default><![CDATA[array()]]></default>
+          <type/>
+        </argument>
+        <argument line="67">
+          <name>$stackTrace</name>
+          <default><![CDATA[array()]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file LogEvent.php</error>
+    </parse_markers>
+  </file>
+  <file path="LogEventHandler/SqlHandler.php" hash="0d2cfb51e65d600f519f525af193b58d" package="Default">
+    <include line="11" type="Require Once" package="Default">
+      <name/>
+      <docblock line="2">
+        <description><![CDATA[This file defines classes to manage sql handlers.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+        <tag line="2" name="version" description="1.0"/>
+      </docblock>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="16" package="Default">
+      <extends>\AspectHandler</extends>
+      <name>SqlHandler</name>
+      <full_name>\SqlHandler</full_name>
+      <docblock line="13">
+        <description><![CDATA[Function handler abstraction using AOP handler.]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="22" package="Default">
+        <name>handle</name>
+        <full_name>handle</full_name>
+        <docblock line="18">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="18" name="param" description="Params for handled events." type="\AopJoinPoint" variable="$info">
+            <type by_reference="false">\AopJoinPoint</type>
+          </tag>
+        </docblock>
+        <argument line="22">
+          <name>$info</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <markers>
+      <todo line="25">make info translation to message more flexible.</todo>
+    </markers>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file LogEventHandler/SqlHandler.php</error>
+    </parse_markers>
+  </file>
+  <file path="LogEventHandler/FunctionHandler.php" hash="cce30b6ae07ec6a737714b963b004565" package="Default">
+    <include line="11" type="Require Once" package="Default">
+      <name/>
+      <docblock line="2">
+        <description><![CDATA[This file defines classes to manage function handlers.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+        <tag line="2" name="version" description="1.0"/>
+      </docblock>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="16" package="Default">
+      <extends>\AspectHandler</extends>
+      <name>FunctionHandler</name>
+      <full_name>\FunctionHandler</full_name>
+      <docblock line="13">
+        <description><![CDATA[Function handler abstraction using AOP handler.]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="22" package="Default">
+        <name>handle</name>
+        <full_name>handle</full_name>
+        <docblock line="18">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="18" name="param" description="Params for handled events." type="\AopJoinPoint" variable="$info">
+            <type by_reference="false">\AopJoinPoint</type>
+          </tag>
+        </docblock>
+        <argument line="22">
+          <name>$info</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <markers>
+      <todo line="25">make info translation to message more flexible.</todo>
+    </markers>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file LogEventHandler/FunctionHandler.php</error>
+    </parse_markers>
+  </file>
+  <file path="LogEventHandler/AspectHandler.php" hash="53c92bc47e34324604903d4f9e247ca3" package="Default">
+    <include line="11" type="Require Once" package="Default">
+      <name/>
+      <docblock line="2">
+        <description><![CDATA[This file defines classes to manage aspect event handlers created with AOP PECL extension.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+        <tag line="2" name="version" description="1.0"/>
+        <tag line="2" name="link" description="https://github.com/AOP-PHP/AOP" link="https://github.com/AOP-PHP/AOP"/>
+      </docblock>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="16" package="Default">
+      <extends>\LogEventHandler</extends>
+      <name>AspectHandler</name>
+      <full_name>\AspectHandler</full_name>
+      <docblock line="13">
+        <description><![CDATA[Event handler abstraction using AOP extension.]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="22" package="Default">
+        <name>_getMethodName</name>
+        <full_name>_getMethodName</full_name>
+        <docblock line="18">
+          <description><![CDATA[Gets method name to register handler.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="18" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="36" package="Default">
+        <name>register</name>
+        <full_name>register</full_name>
+        <docblock line="33">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="46" package="Default">
+        <name>handle</name>
+        <full_name>handle</full_name>
+        <docblock line="42">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="42" name="param" description="Params for handled events." type="\AopJoinPoint" variable="$info">
+            <type by_reference="false">\AopJoinPoint</type>
+          </tag>
+        </docblock>
+        <argument line="46">
+          <name>$info</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="71" package="Default">
+        <name>deregister</name>
+        <full_name>deregister</full_name>
+        <docblock line="67">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="67" name="throws" description="Not implemented." type="\Exception">
+            <type by_reference="false">\Exception</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file LogEventHandler/AspectHandler.php</error>
+    </parse_markers>
+  </file>
+  <file path="LogEventWriter.php" hash="73087600c52d2d15ad765f60ee78c56d" package="Default">
+    <include line="11" type="Include Once" package="Default">
+      <name/>
+      <docblock line="2">
+        <description><![CDATA[This file defines classes to manage event writers.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+        <tag line="2" name="version" description="1.0"/>
+      </docblock>
+    </include>
+    <include line="12" type="Include Once" package="Default">
+      <name/>
+    </include>
+    <include line="13" type="Include Once" package="Default">
+      <name/>
+    </include>
+    <class final="true" abstract="true" namespace="global" line="20" package="Default">
+      <extends/>
+      <name>LogEventWriter</name>
+      <full_name>\LogEventWriter</full_name>
+      <docblock line="15">
+        <description><![CDATA[Abstract class for event writer.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="15" name="abstract" description=""/>
+        <tag line="15" name="used" description="AspectLogger"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="26" namespace="global" package="Default">
+        <name>$_config</name>
+        <default><![CDATA[]]></default>
+        <docblock line="22">
+          <description><![CDATA[Writer configuration.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="22" name="var" description="" type="mixed|\SimpleXMLElement">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">\SimpleXMLElement</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="33" package="Default">
+        <name>init</name>
+        <full_name>init</full_name>
+        <docblock line="28">
+          <description><![CDATA[Initializes writer instance depending on config.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="28" name="param" description="Writer configuration." type="mixed|\SimpleXMLElement" variable="$config">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">\SimpleXMLElement</type>
+          </tag>
+          <tag line="28" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="33">
+          <name>$config</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="global" line="41" package="Default">
+        <name>open</name>
+        <full_name>open</full_name>
+        <docblock line="37">
+          <description><![CDATA[Opens the writer target.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="37" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="global" line="48" package="Default">
+        <name>format</name>
+        <full_name>format</full_name>
+        <docblock line="43">
+          <description><![CDATA[Formats handled event before writing.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="43" name="param" description="Handled event to format." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="43" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="48">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="global" line="55" package="Default">
+        <name>write</name>
+        <full_name>write</full_name>
+        <docblock line="50">
+          <description><![CDATA[Writes handled event to the writer target.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="50" name="param" description="Event to write." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="50" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="55">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="global" line="61" package="Default">
+        <name>close</name>
+        <full_name>close</full_name>
+        <docblock line="57">
+          <description><![CDATA[Closes the writer target.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="57" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="67" package="Default">
+      <extends>\LogEventWriter</extends>
+      <name>LogEventWriterCollection</name>
+      <full_name>\LogEventWriterCollection</full_name>
+      <docblock line="64">
+        <description><![CDATA[Abstraction class for event writers collection.]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="72" namespace="global" package="Default">
+        <name>$_writers</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="68">
+          <description><![CDATA[List of managed writers.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="68" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="83" package="Default">
+        <name>callMethod</name>
+        <full_name>callMethod</full_name>
+        <docblock line="76">
+          <description><![CDATA[Proxies method call to all managed handler instances.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="76" name="param" description="&lt;p&gt;Method name to call.&lt;/p&gt;" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="76" name="param" description="&lt;p&gt;List of arguments to pass to the method.&lt;/p&gt;" type="array" variable="$arguments">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="76" name="throws" description="" type="\Exception">
+            <type by_reference="false">\Exception</type>
+          </tag>
+          <tag line="76" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="83">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="83">
+          <name>$arguments</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="98" package="Default">
+        <name>init</name>
+        <full_name>init</full_name>
+        <docblock line="93">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="93" name="param" description="Writer configuration list." type="mixed|\SimpleXMLElement" variable="$configs">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">\SimpleXMLElement</type>
+          </tag>
+          <tag line="93" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="98">
+          <name>$configs</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="119" package="Default">
+        <name>open</name>
+        <full_name>open</full_name>
+        <docblock line="115">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="115" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="145" package="Default">
+        <name>write</name>
+        <full_name>write</full_name>
+        <docblock line="140">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="140" name="param" description="Event to write." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="140" name="return" description="&lt;code&gt;True&lt;/code&gt; if operation was succeeded, otherwise return &lt;code&gt;false&lt;/code&gt;." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="145">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="154" package="Default">
+        <name>close</name>
+        <full_name>close</full_name>
+        <docblock line="150">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="150" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="166" package="Default">
+        <name>_key</name>
+        <full_name>_key</full_name>
+        <docblock line="161">
+          <description><![CDATA[Calculates item hash.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="161" name="param" description="Item to calculate the key." type="\LogEventWriter" variable="$item">
+            <type by_reference="false">\LogEventWriter</type>
+          </tag>
+          <tag line="161" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="166">
+          <name>$item</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="174" package="Default">
+        <name>add</name>
+        <full_name>add</full_name>
+        <docblock line="170">
+          <description><![CDATA[Adds an item to collection.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="170" name="param" description="Instance to add." type="\LogEventWriter" variable="$writer">
+            <type by_reference="false">\LogEventWriter</type>
+          </tag>
+        </docblock>
+        <argument line="174">
+          <name>$writer</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEventWriter</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="183" package="Default">
+        <name>remove</name>
+        <full_name>remove</full_name>
+        <docblock line="179">
+          <description><![CDATA[Removes an item from collection.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="179" name="param" description="Instance to remove." type="\LogEventWriter" variable="$writer">
+            <type by_reference="false">\LogEventWriter</type>
+          </tag>
+        </docblock>
+        <argument line="183">
+          <name>$writer</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEventWriter</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="193" package="Default">
+        <name>contains</name>
+        <full_name>contains</full_name>
+        <docblock line="188">
+          <description><![CDATA[Checks if the collection contains the specified item.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="188" name="param" description="Item to check." type="\LogEventWriter" variable="$writer">
+            <type by_reference="false">\LogEventWriter</type>
+          </tag>
+          <tag line="188" name="return" description="" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="193">
+          <name>$writer</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEventWriter</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="204" package="Default">
+        <name>format</name>
+        <full_name>format</full_name>
+        <docblock line="198">
+          <description><![CDATA[Formats handled event before writing.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="198" name="param" description="Handled event to format." type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+          <tag line="198" name="throws" description="Invalid operation on collections." type="\Exception">
+            <type by_reference="false">\Exception</type>
+          </tag>
+          <tag line="198" name="return" description="" type="mixed|void">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="204">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file LogEventWriter.php</error>
+    </parse_markers>
+  </file>
+  <file path="AspectLogger.php" hash="818c2915e7006333a488f6c06edf16ba" package="Default">
+    <include line="11" type="Require Once" package="Default">
+      <name/>
+      <docblock line="2">
+        <description><![CDATA[This file defines classes to manage loggers.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+        <tag line="2" name="version" description="1.0"/>
+      </docblock>
+    </include>
+    <include line="12" type="Require Once" package="Default">
+      <name/>
+    </include>
+    <include line="14" type="Require Once" package="Default">
+      <name/>
+    </include>
+    <include line="15" type="Require Once" package="Default">
+      <name/>
+    </include>
+    <include line="16" type="Require Once" package="Default">
+      <name/>
+    </include>
+    <include line="18" type="Require Once" package="Default">
+      <name/>
+    </include>
+    <include line="19" type="Require Once" package="Default">
+      <name/>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="28" package="Default">
+      <extends/>
+      <name>AspectLogger</name>
+      <full_name>\AspectLogger</full_name>
+      <docblock line="22">
+        <description><![CDATA[Top level class for managing logging]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="22" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+        <tag line="22" name="uses" description="\global\LogEventHandler" refers="\global\LogEventHandler"/>
+        <tag line="22" name="uses" description="\global\LogEventWriter" refers="\global\LogEventWriter"/>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="34" namespace="global" package="Default">
+        <name>$_handler</name>
+        <default><![CDATA[]]></default>
+        <docblock line="30">
+          <description><![CDATA[Event handler.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="30" name="var" description="" type="\LogEventHandler">
+            <type by_reference="false">\LogEventHandler</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="40" namespace="global" package="Default">
+        <name>$_writer</name>
+        <default><![CDATA[]]></default>
+        <docblock line="36">
+          <description><![CDATA[Event writer.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="36" name="var" description="" type="\LogEventWriter">
+            <type by_reference="false">\LogEventWriter</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="46" namespace="global" package="Default">
+        <name>$_page</name>
+        <default><![CDATA[]]></default>
+        <docblock line="42">
+          <description><![CDATA[Current page request information.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="42" name="var" description="" type="\LogPage">
+            <type by_reference="false">\LogPage</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="52" package="Default">
+        <name>init</name>
+        <full_name>init</full_name>
+        <docblock line="48">
+          <description><![CDATA[Initializes logger instance with specified configuration.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="48" name="param" description="&lt;p&gt;Path to logger configuration file.&lt;/p&gt;" type="string|\SimpleXMLElement" variable="$config">
+            <type by_reference="false">string</type>
+            <type by_reference="false">\SimpleXMLElement</type>
+          </tag>
+        </docblock>
+        <argument line="52">
+          <name>$config</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="72" package="Default">
+        <name>getPage</name>
+        <full_name>getPage</full_name>
+        <docblock line="68">
+          <description><![CDATA[Returns information about current page request.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="68" name="return" description="" type="\LogPage">
+            <type by_reference="false">\LogPage</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="81" package="Default">
+        <name>write</name>
+        <full_name>write</full_name>
+        <docblock line="77">
+          <description><![CDATA[Writes an event to log writer.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="77" name="param" description="&lt;p&gt;Event to log.&lt;/p&gt;" type="\LogEvent" variable="$event">
+            <type by_reference="false">\LogEvent</type>
+          </tag>
+        </docblock>
+        <argument line="81">
+          <name>$event</name>
+          <default><![CDATA[]]></default>
+          <type>\LogEvent</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="89" package="Default">
+        <name>stop</name>
+        <full_name>stop</full_name>
+        <docblock line="86">
+          <description><![CDATA[Stops logging, deregisters handler and closes writer.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+    </class>
+    <markers>
+      <todo line="53">Add configuration class instead of using SimpleXML object.</todo>
+      <todo line="90">Implement LogEventHandler::deregister() function</todo>
+    </markers>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file AspectLogger.php</error>
+    </parse_markers>
+  </file>
+  <file path="LogEventHandler.php" hash="2f971743b994c59d74b7e7b0d903885a" package="Default">
+    <include line="11" type="Require Once" package="Default">
+      <name/>
+      <docblock line="2">
+        <description><![CDATA[This file defines classes to manage event handlers.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="2" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+        <tag line="2" name="version" description="1.0"/>
+      </docblock>
+    </include>
+    <include line="12" type="Require Once" package="Default">
+      <name/>
+    </include>
+    <class final="true" abstract="true" namespace="global" line="19" package="Default">
+      <extends/>
+      <name>LogEventHandler</name>
+      <full_name>\LogEventHandler</full_name>
+      <docblock line="14">
+        <description><![CDATA[Abstraction for triggered event handler.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="14" name="abstract" description=""/>
+        <tag line="14" name="used" description="AspectLogger"/>
+      </docblock>
+      <constant namespace="global" line="25" package="Default">
+        <name>MODE_BEFORE</name>
+        <full_name>MODE_BEFORE</full_name>
+        <value><![CDATA[1]]></value>
+        <docblock line="21">
+          <description><![CDATA[Executes handler before trigger.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="21" name="const" description="int"/>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="32" package="Default">
+        <name>MODE_AFTER</name>
+        <full_name>MODE_AFTER</full_name>
+        <value><![CDATA[2]]></value>
+        <docblock line="28">
+          <description><![CDATA[Executes handler after trigger.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="28" name="const" description="int"/>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="38" package="Default">
+        <name>MODE_AROUND</name>
+        <full_name>MODE_AROUND</full_name>
+        <value><![CDATA[3]]></value>
+        <docblock line="34">
+          <description><![CDATA[Executes handler around trigger.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="34" name="const" description="int"/>
+        </docblock>
+      </constant>
+      <property final="false" static="false" visibility="protected" line="46" namespace="global" package="Default">
+        <name>$_match</name>
+        <default><![CDATA[]]></default>
+        <docblock line="40">
+          <description><![CDATA[Expression to match trigger functions.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="40" name="link" description="http://www.croes.org/gerald/projects/aop/documentation_aop_extension_php.pdf" link="http://www.croes.org/gerald/projects/aop/documentation_aop_extension_php.pdf"/>
+          <tag line="40" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="52" namespace="global" package="Default">
+        <name>$_logger</name>
+        <default><![CDATA[]]></default>
+        <docblock line="48">
+          <description><![CDATA[Logger instance that caught the trigger.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="48" name="var" description="" type="\AspectLogger">
+            <type by_reference="false">\AspectLogger</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="63" namespace="global" package="Default">
+        <name>$_mode</name>
+        <default><![CDATA[\LogEventHandler::MODE_BEFORE]]></default>
+        <docblock line="54">
+          <description><![CDATA[Match mode.]]></description>
+          <long-description><![CDATA[<p>May be one of {@see LogEventHandler::MODE_BEFORE},
+{@see LogEventHandler::MODE_AFTER},
+{@see LogEventHandler::MODE_AROUND}.
+{@see LogEventHandler::MODE_BEFORE} will be used by default.</p>]]></long-description>
+          <tag line="54" name="var" description="" type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="71" package="Default">
+        <name>init</name>
+        <full_name>init</full_name>
+        <docblock line="66">
+          <description><![CDATA[Initializes instance with handler configuration and logger instance.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="66" name="param" description="&lt;p&gt;Handler configuration.&lt;/p&gt;" type="\SimpleXMLElement|mixed" variable="$config">
+            <type by_reference="false">\SimpleXMLElement</type>
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="66" name="param" description="&lt;p&gt;Parent logger instance.&lt;/p&gt;" type="\AspectLogger" variable="$logger">
+            <type by_reference="false">\AspectLogger</type>
+          </tag>
+        </docblock>
+        <argument line="71">
+          <name>$config</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="71">
+          <name>$logger</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="global" line="85" package="Default">
+        <name>register</name>
+        <full_name>register</full_name>
+        <docblock line="80">
+          <description><![CDATA[Registers handler.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="80" name="abstract" description=""/>
+          <tag line="80" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="global" line="94" package="Default">
+        <name>handle</name>
+        <full_name>handle</full_name>
+        <docblock line="88">
+          <description><![CDATA[Handles info about trigger execution.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="88" name="param" description="&lt;p&gt;Info about trigger execution.&lt;/p&gt;" type="mixed" variable="$info">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="88" name="abstract" description=""/>
+          <tag line="88" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="94">
+          <name>$info</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="global" line="102" package="Default">
+        <name>deregister</name>
+        <full_name>deregister</full_name>
+        <docblock line="97">
+          <description><![CDATA[Deregisters handler in the logger.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="97" name="abstract" description=""/>
+          <tag line="97" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="109" package="Default">
+      <extends>\LogEventHandler</extends>
+      <name>LogEventHandlerCollection</name>
+      <full_name>\LogEventHandlerCollection</full_name>
+      <docblock line="105">
+        <description><![CDATA[Abstraction to manage handlers list.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="105" name="author" description="Max Rykin &lt;mrykin@northernlight.com&gt;"/>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="115" namespace="global" package="Default">
+        <name>$_handlers</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="111">
+          <description><![CDATA[List of managed handlers.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="111" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="125" package="Default">
+        <name>callMethod</name>
+        <full_name>callMethod</full_name>
+        <docblock line="118">
+          <description><![CDATA[Proxies method call to all managed handler instances.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="118" name="param" description="&lt;p&gt;Method name to call.&lt;/p&gt;" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="118" name="param" description="&lt;p&gt;List of arguments to pass to the method.&lt;/p&gt;" type="array" variable="$arguments">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="118" name="throws" description="" type="\Exception">
+            <type by_reference="false">\Exception</type>
+          </tag>
+          <tag line="118" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="125">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="125">
+          <name>$arguments</name>
+          <default><![CDATA[array()]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="138" package="Default">
+        <name>register</name>
+        <full_name>register</full_name>
+        <docblock line="135">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="146" package="Default">
+        <name>handle</name>
+        <full_name>handle</full_name>
+        <docblock line="142">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="142" name="param" description="&lt;p&gt;Info about trigger execution.&lt;/p&gt;" type="mixed" variable="$info">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="146">
+          <name>$info</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="155" package="Default">
+        <name>init</name>
+        <full_name>init</full_name>
+        <docblock line="150">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="150" name="param" description="&lt;p&gt;List of handler configurations.&lt;/p&gt;" type="mixed|\Iterator" variable="$configs">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">\Iterator</type>
+          </tag>
+          <tag line="150" name="param" description="&lt;p&gt;Parent logger instance.&lt;/p&gt;" type="\AspectLogger" variable="$logger">
+            <type by_reference="false">\AspectLogger</type>
+          </tag>
+        </docblock>
+        <argument line="155">
+          <name>$configs</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="155">
+          <name>$logger</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="172" package="Default">
+        <name>deregister</name>
+        <full_name>deregister</full_name>
+        <docblock line="169">
+          <description><![CDATA[{@inheritdoc}]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+    </class>
+    <markers>
+      <todo line="159">Bad initialization practice.</todo>
+    </markers>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file LogEventHandler.php</error>
+    </parse_markers>
+  </file>
+  <package name="Default" full_name="Default"/>
+  <namespace name="global" full_name="global"/>
+  <marker count="5">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>

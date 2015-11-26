@@ -1,0 +1,44 @@
+<logger>
+    <handlers>
+        <handler>
+            <type>function</type>
+            <match><![CDATA[DBConnection->query()]]></match>
+            <mode>MODE_BEFORE</mode>
+        </handler>
+        <handler>
+            <type>function</type>
+            <match><![CDATA[getPDSDetail()]]></match>
+            <mode>MODE_BEFORE</mode>
+        </handler>
+        <handler>
+            <type>function</type>
+            <match><![CDATA[getPDSDocument()]]></match>
+            <mode>MODE_BEFORE</mode>
+        </handler>
+        <handler>
+            <type>sql</type>
+            <match>mysql_query()</match>
+            <mode>MODE_BEFORE</mode>
+        </handler>
+    </handlers>
+
+    <writers>
+        <file>
+            <type>file</type>
+            <path>logger.output</path>
+        </file>
+
+        <!--<pgsql>-->
+            <!--<type>pgsql</type>-->
+            <!--<connectionString>host=localhost port=5432 dbname=logging user=root password=trash911</connectionString>-->
+        <!--</pgsql>-->
+        <socket>
+            <type>socket</type>
+            <domain>AF_INET</domain>
+            <socketType>SOCK_STREAM</socketType>
+            <protocol>SOL_TCP</protocol>
+            <address>0.0.0.0</address>
+            <port>514</port>
+        </socket>
+    </writers>
+</logger>
