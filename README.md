@@ -20,4 +20,4 @@ $logger->init('<path to xml config file>');
 That's all. Logging is on.
 
 ### Documentation
-For more information please see [documentation](http://max3-05.github.io/AspectLogger/docs/)
+For more information please see [documentation](http://max3-05.github.io/AspectLogger/docs/phpdocs/)
